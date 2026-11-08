@@ -1,0 +1,44 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Brunata Nutzerportal",
+        "description": "Melde dich mit deinem Konto für nutzerportal.brunata-muenchen.de an.",
+        "data": {
+          "username": "E-Mail",
+          "password": "Passwort"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Brunata-Passwort",
+        "description": "Das Brunata-Portal hat das gespeicherte Passwort für {username} abgelehnt. Gib das aktuelle Passwort ein.",
+        "data": {
+          "password": "Passwort"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "E-Mail oder Passwort ist falsch.",
+      "cannot_connect": "Das Brunata-Portal ist nicht erreichbar.",
+      "unknown": "Unerwarteter Fehler, siehe Logs."
+    },
+    "abort": {
+      "already_configured": "Dieses Brunata-Konto ist bereits eingerichtet.",
+      "reauth_successful": "Das Passwort wurde aktualisiert.",
+      "wrong_account": "Diese Zugangsdaten gehören zu einem anderen Brunata-Konto."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "cold_water_last_month": {
+        "name": "Kaltwasser letzter Monat ({cost_type})"
+      },
+      "hot_water_last_month": {
+        "name": "Warmwasser letzter Monat ({cost_type})"
+      },
+      "heating_last_month": {
+        "name": "Heizung letzter Monat ({cost_type})"
+      }
+    }
+  }
+}

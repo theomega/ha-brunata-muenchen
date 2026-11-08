@@ -1,0 +1,18 @@
+{
+  "domain": "brunata",
+  "name": "Brunata M\u00fcnchen",
+  "codeowners": [],
+  "config_flow": true,
+  "dependencies": [
+    "recorder"
+  ],
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "loggers": [
+    "custom_components.brunata"
+  ],
+  "requirements": [
+    "pydantic>=2.10"
+  ],
+  "version": "0.1.0"
+}
