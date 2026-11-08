@@ -1,18 +1,14 @@
 {
   "domain": "brunata",
-  "name": "Brunata M\u00fcnchen",
-  "codeowners": [],
+  "name": "Brunata München",
+  "codeowners": ["@theomega"],
   "config_flow": true,
-  "dependencies": [
-    "recorder"
-  ],
+  "dependencies": ["recorder"],
+  "documentation": "https://github.com/theomega/ha-brunata-muenchen",
   "integration_type": "service",
   "iot_class": "cloud_polling",
-  "loggers": [
-    "custom_components.brunata"
-  ],
-  "requirements": [
-    "pydantic>=2.10"
-  ],
+  "issue_tracker": "https://github.com/theomega/ha-brunata-muenchen/issues",
+  "loggers": ["custom_components.brunata"],
+  "requirements": ["pydantic>=2.10"],
   "version": "0.1.0"
 }
