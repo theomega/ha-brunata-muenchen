@@ -5,7 +5,13 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
-from brunata_muenchen.series import HOUR, MonthlyValue, hourly_sums, month_bounds
+from brunata_muenchen.series import (
+    HOUR,
+    MonthlyValue,
+    hourly_sums,
+    latest_year_total,
+    month_bounds,
+)
 
 BERLIN = ZoneInfo("Europe/Berlin")
 LATER = datetime(2030, 1, 1, tzinfo=UTC)
@@ -57,3 +63,14 @@ def test_running_month_stops_before_now() -> None:
 def test_future_month_is_skipped() -> None:
     now = datetime(2026, 1, 15, tzinfo=UTC)
     assert hourly_sums([MonthlyValue(2026, 2, 5.0)], BERLIN, now) == []
+
+
+def test_latest_year_total_sums_only_the_newest_year() -> None:
+    months = [MonthlyValue(2025, 12, 7.32), MonthlyValue(2026, 1, 8.03), MonthlyValue(2026, 2, 8.86)]
+    year, total = latest_year_total(months)
+    assert year == 2026
+    assert total == pytest.approx(16.89)
+
+
+def test_latest_year_total_without_data() -> None:
+    assert latest_year_total([]) is None

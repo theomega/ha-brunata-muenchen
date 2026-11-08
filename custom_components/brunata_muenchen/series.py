@@ -36,6 +36,15 @@ def month_bounds(year: int, month: int, tz: tzinfo) -> tuple[datetime, datetime]
     return start.astimezone(UTC), end.astimezone(UTC)
 
 
+def latest_year_total(months: Iterable[MonthlyValue]) -> tuple[int, float] | None:
+    """Return the most recent year with data and the sum of its months."""
+    months = list(months)
+    if not months:
+        return None
+    year = max(m.year for m in months)
+    return year, sum(m.value for m in months if m.year == year)
+
+
 def hourly_sums(
     months: Iterable[MonthlyValue], tz: tzinfo, now: datetime, base_sum: float = 0.0
 ) -> list[HourlySum]:

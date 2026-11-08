@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from dataclasses import dataclass
 from datetime import datetime
 
 import httpx
@@ -35,12 +36,22 @@ _LOGGER = logging.getLogger(__name__)
 type BrunataConfigEntry = ConfigEntry[BrunataCoordinator]
 
 
+@dataclass(frozen=True)
+class MeterData:
+    """A meter's monthly values and its ever-increasing total."""
+
+    meter: Meter
+    # Sum of the imported statistics, including months no longer in the portal.
+    # None if the unit cannot be imported.
+    total: float | None
+
+
 def statistic_id(account_id: str, cost_type: str) -> str:
     """Return the external statistic id for a meter of an account."""
     return f"{DOMAIN}:{slugify(account_id)}_{cost_type.lower()}"
 
 
-class BrunataCoordinator(DataUpdateCoordinator[dict[str, Meter]]):
+class BrunataCoordinator(DataUpdateCoordinator[dict[str, MeterData]]):
     """Fetch monthly values and keep the hourly statistics in sync."""
 
     config_entry: BrunataConfigEntry
@@ -54,11 +65,12 @@ class BrunataCoordinator(DataUpdateCoordinator[dict[str, Meter]]):
             update_interval=UPDATE_INTERVAL,
         )
 
-    async def _async_update_data(self) -> dict[str, Meter]:
+    async def _async_update_data(self) -> dict[str, MeterData]:
         meters = await self._async_fetch()
-        for meter in meters.values():
-            await self._async_import_statistics(meter)
-        return meters
+        return {
+            cost_type: MeterData(meter, await self._async_import_statistics(meter))
+            for cost_type, meter in meters.items()
+        }
 
     async def _async_fetch(self) -> dict[str, Meter]:
         data = self.config_entry.data
@@ -79,10 +91,11 @@ class BrunataCoordinator(DataUpdateCoordinator[dict[str, Meter]]):
         except (BrunataError, httpx.HTTPError) as err:
             raise UpdateFailed(f"Error fetching Brunata data: {err}") from err
 
-    async def _async_import_statistics(self, meter: Meter) -> None:
+    async def _async_import_statistics(self, meter: Meter) -> float | None:
+        """Import the meter's hourly sums and return the resulting total."""
         if (unit_class := UNIT_CLASSES.get(meter.unit)) is None:
             _LOGGER.warning("Not importing %s: unsupported unit %s", meter.cost_type, meter.unit)
-            return
+            return None
         stat_id = statistic_id(self.config_entry.unique_id, meter.cost_type)
         tz = dt_util.get_default_time_zone()
         first = meter.months[0]
@@ -105,6 +118,7 @@ class BrunataCoordinator(DataUpdateCoordinator[dict[str, Meter]]):
             metadata,
             [StatisticData(start=r.start, state=r.sum, sum=r.sum) for r in rows],
         )
+        return rows[-1].sum if rows else base_sum
 
     async def _async_sum_before(self, stat_id: str, start: datetime) -> float:
         stats = await get_instance(self.hass).async_add_executor_job(

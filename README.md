@@ -18,8 +18,20 @@ Unofficial project, not affiliated with BRUNATA-METRONA.
 | Hot water (`WW..`) | `brunata_muenchen:<account>_ww01`, m³ | Water source |
 | Heating (`HZ..`) | `brunata_muenchen:<account>_hz01`, kWh | Not supported there, use a Statistics graph card |
 
-Plus one sensor per meter with the most recent published month (attribute `month`).
-Those sensors are informational only and not used for statistics.
+Plus three sensors per meter:
+
+| Sensor | Value |
+|---|---|
+| *last month* | Consumption of the most recent published month (attribute `month`) |
+| *this year* | Sum of all published months of the current year (attribute `year`) |
+| *total* | Ever-increasing total: the running sum of the imported statistics |
+
+The *total* starts with the history the portal still has at the first run and keeps
+months that later drop off the portal. The portal itself only shows yearly totals that
+reset on 1 January, not the physical meter value.
+
+The sensors have no `state_class` on purpose, so Home Assistant does not build its own
+(spiky) statistics from them. Use the imported statistics for the Energy dashboard.
 
 The integration polls every 12 hours. New months usually appear in the portal a few
 days after the month ends.

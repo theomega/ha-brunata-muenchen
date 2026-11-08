@@ -33,11 +33,29 @@
       "cold_water_last_month": {
         "name": "Cold water last month ({cost_type})"
       },
+      "cold_water_this_year": {
+        "name": "Cold water this year ({cost_type})"
+      },
+      "cold_water_total": {
+        "name": "Cold water total ({cost_type})"
+      },
       "hot_water_last_month": {
         "name": "Hot water last month ({cost_type})"
       },
+      "hot_water_this_year": {
+        "name": "Hot water this year ({cost_type})"
+      },
+      "hot_water_total": {
+        "name": "Hot water total ({cost_type})"
+      },
       "heating_last_month": {
         "name": "Heating last month ({cost_type})"
+      },
+      "heating_this_year": {
+        "name": "Heating this year ({cost_type})"
+      },
+      "heating_total": {
+        "name": "Heating total ({cost_type})"
       }
     }
   }
