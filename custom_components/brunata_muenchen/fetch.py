@@ -22,6 +22,10 @@ METER_KINDS: dict[str, tuple[str, bool]] = {
 }
 
 
+# Unsupported cost types already logged, so each is reported once per start
+_REPORTED_UNSUPPORTED: set[str] = set()
+
+
 @dataclass(frozen=True)
 class Meter:
     """Monthly consumption series of one portal cost type (e.g. KW01)."""
@@ -50,6 +54,13 @@ async def fetch_meters(client: BrunataClient) -> dict[str, Meter]:
     meters: dict[str, Meter] = {}
     for cost_type in cost_types:
         if (kind := METER_KINDS.get(cost_type[:2])) is None:
+            if cost_type not in _REPORTED_UNSUPPORTED:
+                _REPORTED_UNSUPPORTED.add(cost_type)
+                _LOGGER.warning(
+                    "Ignoring unsupported Brunata cost type %s; supported are %s",
+                    cost_type,
+                    ", ".join(f"{prefix}.." for prefix in METER_KINDS),
+                )
             continue
         kind_name, in_kwh = kind
         values: dict[tuple[int, int], float] = {}
