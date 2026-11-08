@@ -1,7 +1,7 @@
 """Fetch Brunata data and import it into a Home Assistant instance under test ids.
 
 Runs the same fetch and spreading code as the integration, but writes the result
-through the WebSocket API to `brunata_test:<cost_type>` statistics, so the result
+through the WebSocket API to `brunata_muenchen_test:<cost_type>` statistics, so the result
 can be checked in Home Assistant before installing the integration.
 
 Credentials are only read from the environment, never from this repository:
@@ -29,17 +29,17 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 # Import the HA-free modules of the integration without running its __init__.
-PKG_DIR = Path(__file__).resolve().parent.parent / "custom_components" / "brunata"
-_pkg = types.ModuleType("brunata")
+PKG_DIR = Path(__file__).resolve().parent.parent / "custom_components" / "brunata_muenchen"
+_pkg = types.ModuleType("brunata_muenchen")
 _pkg.__path__ = [str(PKG_DIR)]
-sys.modules["brunata"] = _pkg
+sys.modules["brunata_muenchen"] = _pkg
 
-from brunata.brunata_api import BrunataClient  # noqa: E402
-from brunata.const import BASE_URL, SAP_CLIENT, STATISTIC_NAMES, UNIT_CLASSES  # noqa: E402
-from brunata.fetch import fetch_meters  # noqa: E402
-from brunata.series import hourly_sums  # noqa: E402
+from brunata_muenchen.brunata_api import BrunataClient  # noqa: E402
+from brunata_muenchen.const import BASE_URL, SAP_CLIENT, STATISTIC_NAMES, UNIT_CLASSES  # noqa: E402
+from brunata_muenchen.fetch import fetch_meters  # noqa: E402
+from brunata_muenchen.series import hourly_sums  # noqa: E402
 
-TEST_SOURCE = "brunata_test"
+TEST_SOURCE = "brunata_muenchen_test"
 
 
 def load_env_file(path: str) -> None:

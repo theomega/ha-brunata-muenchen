@@ -5,7 +5,7 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
-from brunata.series import HOUR, MonthlyValue, hourly_sums, month_bounds
+from brunata_muenchen.series import HOUR, MonthlyValue, hourly_sums, month_bounds
 
 BERLIN = ZoneInfo("Europe/Berlin")
 LATER = datetime(2030, 1, 1, tzinfo=UTC)

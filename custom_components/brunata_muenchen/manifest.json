@@ -1,5 +1,5 @@
 {
-  "domain": "brunata",
+  "domain": "brunata_muenchen",
   "name": "Brunata München",
   "codeowners": ["@theomega"],
   "config_flow": true,
@@ -8,7 +8,7 @@
   "integration_type": "service",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/theomega/ha-brunata-muenchen/issues",
-  "loggers": ["custom_components.brunata"],
+  "loggers": ["custom_components.brunata_muenchen"],
   "requirements": ["pydantic>=2.10"],
   "version": "0.1.0"
 }

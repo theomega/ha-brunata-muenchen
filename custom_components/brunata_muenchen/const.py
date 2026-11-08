@@ -2,7 +2,7 @@
 
 from datetime import timedelta
 
-DOMAIN = "brunata"
+DOMAIN = "brunata_muenchen"
 
 BASE_URL = "https://nutzerportal.brunata-muenchen.de"
 SAP_CLIENT = "201"

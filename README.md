@@ -14,9 +14,9 @@ Unofficial project, not affiliated with BRUNATA-METRONA.
 
 | Meter | Statistic | Energy dashboard |
 |---|---|---|
-| Cold water (`KW..`) | `brunata:<account>_kw01`, m³ | Water source |
-| Hot water (`WW..`) | `brunata:<account>_ww01`, m³ | Water source |
-| Heating (`HZ..`) | `brunata:<account>_hz01`, kWh | Not supported there, use a Statistics graph card |
+| Cold water (`KW..`) | `brunata_muenchen:<account>_kw01`, m³ | Water source |
+| Hot water (`WW..`) | `brunata_muenchen:<account>_ww01`, m³ | Water source |
+| Heating (`HZ..`) | `brunata_muenchen:<account>_hz01`, kWh | Not supported there, use a Statistics graph card |
 
 Plus one sensor per meter with the most recent published month (attribute `month`).
 Those sensors are informational only and not used for statistics.
@@ -35,7 +35,7 @@ days after the month ends.
 
 ### Manual
 
-Copy `custom_components/brunata` into your Home Assistant `custom_components` folder
+Copy `custom_components/brunata_muenchen` into your Home Assistant `custom_components` folder
 and restart.
 
 ## Energy dashboard
@@ -70,7 +70,7 @@ python3 -m pytest tests
 ```
 
 `tools/import_test.py` runs the same fetch and spreading code against a live Home
-Assistant and writes `brunata_test:*` statistics, so you can check the result without
+Assistant and writes `brunata_muenchen_test:*` statistics, so you can check the result without
 installing the integration. It reads all credentials from environment variables
 (`BRUNATA_USERNAME`, `BRUNATA_PASSWORD`, `HA_URL`, `HA_TOKEN`) or from a file passed
 with `--env-file`. Keep that file outside the repository. `--delete` removes the test
